@@ -2,17 +2,26 @@ import React, { Component } from 'react';
 import TodoItem from '../TodoItem';
 
 class TodoList extends Component {
+  shouldComponentUpdate(nextProps, nextState) {
+    return this.props.todos !== nextProps.todos;
+  }
+
   render() {
     const { todos, onToggle, onRemove } = this.props;
-    const todolist = todos.map(
+    const todoList = todos.map(
       todo => (
-        <TodoItem key={todo.id} done={todo.done}
-          onToggle={() => onToggle(todo.id)} onRemove={() => onRemove(todo.id)}>{todo.text}</TodoItem>
+        <TodoItem
+          key={todo.get('id')}
+          done={todo.get('done')}
+          onToggle={() => onToggle(todo.get('id'))}
+          onRemove={() => onRemove(todo.get('id'))}>
+          {todo.get('text')}
+        </TodoItem>
       )
     )
     return(
       <div>
-        {todolist}
+        {todoList}
       </div>
     );
   }
